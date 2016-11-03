@@ -15,7 +15,7 @@ if [ $repos -eq 2 ]; then
     /usr/bin/wget -P /tmp https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm 
     /usr/bin/rpm -i /tmp/epel-release-latest-7.noarch.rpm
     /usr/bin/yum install -y ansible
-    /usr/bin/git clone https://github.com/eddiechen/tower_install.git
+    /usr/bin/git clone https://github.com/eddiechen/tower_install.git /opt/tower_install
     /usr/bin/ansible-playbook -i "localhost," /opt/tower_install/playbooks/tower-install.yml
     rm -rf /opt/tower_installs /root/install_tower.sh
 else
