@@ -50,7 +50,7 @@
 
   - name: modify inventory file
     template:
-      src: /opt/ansible_playbooks/inventory
+      src: /opt/tower_install/inventory
       dest: /tmp/ansible-tower-setup-bundle-latest/inventory
 
   - name: run tower installation
