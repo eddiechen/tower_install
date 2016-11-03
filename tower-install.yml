@@ -1,0 +1,57 @@
+---
+################################################################################
+# 1. RHEL 7 VM with 20GB /var
+# 2. Register RHEL 7 VM and make sure optional, common, and extra channels are available
+# 3. /usr/bin/ssh-keygen -f /root/.ssh/id_rsa -t rsa -N ''
+# 4. /usr/bin/ssh-copy-id root@localhost
+# 5. /usr/sbin/subscription-manager repos --disable=rhel-7-server-extras-rpms --disable=rhel-7-server-optional-rpms --disable=rhel-7-server-rh-common-rpms
+# 6. /usr/bin/yum install -y wget git
+# 7. /usr/bin/wget -P /tmp https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+# 8. /usr/bin/rpm -i /tmp/epel-release-latest-7.noarch.rpm
+# 9. /usr/bin/yum install -y ansible
+# 10. /usr/bin/git clone https://github.com/eddiechen/ansible_playbooks.git /opt/ansible_playbooks
+# 11. /usr/bin/ansible-playbook -i "localhost," /opt/ansible_playbooks/playbooks/tower-install.yml
+################################################################################
+
+- hosts: all
+  remote_user: root
+
+  tasks:
+  - name: enable Red Hat repos
+    command: /usr/sbin/subscription-manager repos --enable=rhel-7-server-optional-rpms --enable=rhel-7-server-rh-common-rpms --enable=rhel-7-server-extras-rpms
+    ignore_errors: True
+
+  - name: install necessary RPM packages
+    yum:
+      state: latest
+      name: "{{ item }}"
+    with_items:
+      - unzip
+      - wget
+
+  - name: yum update all
+    yum:
+      name: "*"
+      state: latest
+
+  - name: download the latest ansible tower
+    get_url:
+      url: https://releases.ansible.com/ansible-tower/setup-bundle/ansible-tower-setup-bundle-latest.el7.tar.gz
+      dest: /tmp/ansible-tower-setup-bundle-latest.el7.tar.gz
+
+  - name: create directory /tmp/ansible-tower-setup-bundle-latest
+    file:
+      path: /tmp/ansible-tower-setup-bundle-latest
+      state: directory
+      mode: 0755
+
+  - name: unzip ansible tower bundle
+    command: tar -zxvf /tmp/ansible-tower-setup-bundle-latest.el7.tar.gz -C /tmp/ansible-tower-setup-bundle-latest/ --strip-components=1
+
+  - name: modify inventory file
+    template:
+      src: /opt/ansible_playbooks/inventory
+      dest: /tmp/ansible-tower-setup-bundle-latest/inventory
+
+  - name: run tower installation
+    command: sh /tmp/ansible-tower-setup-bundle-latest/setup.sh -i /tmp/ansible-tower-setup-bundle-latest/inventory

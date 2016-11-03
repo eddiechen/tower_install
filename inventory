@@ -1,0 +1,18 @@
+[primary]
+localhost ansible_connection=local
+
+[secondary]
+
+[database]
+
+[all:vars]
+admin_password='redhat'
+redis_password='redhat'
+
+pg_host=''
+pg_port=''
+
+pg_database='awx'
+pg_username='awx'
+pg_password='redhat'
+
