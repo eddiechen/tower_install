@@ -11,6 +11,7 @@ done
 if [ $repos -eq 2 ]; then
     /usr/bin/ssh-keygen -f /root/.ssh/id_rsa -t rsa -N ''
     /usr/bin/ssh-copy-id root@localhost
+    /usr/sbin/subscription-manager repos --disable="*" --enable="rhel-7-server-rpms"
     /usr/bin/yum install -y wget git
     /usr/bin/wget -P /tmp https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     /usr/bin/rpm -i /tmp/epel-release-latest-7.noarch.rpm
