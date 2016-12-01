@@ -18,7 +18,7 @@ if [ $repos -eq 2 ]; then
     /usr/bin/yum install -y ansible
     /usr/bin/git clone https://github.com/eddiechen/tower_install.git /opt/tower_install
     /usr/bin/ansible-playbook -i "localhost," /opt/tower_install/tower-install.yml
-    rm -rf /opt/tower_installs /root/install_tower.sh
+    rm -rf /opt/tower_install /root/install_tower.sh
 else
     echo "Please verify that \"RHEL Extras\" and \"RHEL Optional\" yum repositories are available"
 fi
