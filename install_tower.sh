@@ -3,7 +3,7 @@
 repos=0
 my_repos=( $(/usr/bin/yum repolist all |awk '{print $1}') )
 for i in "${!my_repos[@]}"; do
-    if [[ ${my_repos[$i]} == *'extras'* || ${my_repos[$i]} == *'optional'* ]]; then
+    if [[ ${my_repos[$i]} == *'rhel-7-server-optional-rpms'* || ${my_repos[$i]} == *'rhel-7-server-rh-common-rpms'* ]]; then
 	((repos++))
     fi
 done
