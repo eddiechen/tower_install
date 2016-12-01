@@ -12,7 +12,7 @@ if [ $repos -eq 2 ]; then
     /usr/bin/ssh-keygen -f /root/.ssh/id_rsa -t rsa -N ''
     /usr/bin/ssh-copy-id root@localhost
     /usr/bin/yum install -y wget git
-    /usr/bin/wget -P /tmp https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm 
+    /usr/bin/wget -P /tmp https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
     /usr/bin/rpm -i /tmp/epel-release-latest-7.noarch.rpm
     /usr/bin/yum install -y ansible
     /usr/bin/git clone https://github.com/eddiechen/tower_install.git /opt/tower_install
